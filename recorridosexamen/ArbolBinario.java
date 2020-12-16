@@ -1,66 +1,82 @@
- package recorridosexamen;
+ package recorridosexamen;           
+public class Arbol {
 
- public class ArbolBinario {
-     NodoArbol raiz;
-     
-     public ArbolBinario(){
-         raiz=null;
-     }
-     
-     //Inserta un nodo al arbol
-     public void agregarNodo(int d, String nom){
-         NodoArbol nuevo= new NodoArbol(d, nom);
-         if(raiz==null){
-             raiz=nuevo;
-         }else{
-             NodoArbol auxiliar=raiz;
-             NodoArbol padre;
-             while(true){
-                 padre=auxiliar;
-                 if(d<auxiliar.dato){
-                     auxiliar=auxiliar.hijoIzq;
-                     if(auxiliar==null){
-                         padre.hijoIzq=nuevo;
-                         return;
-                     }
-                 }else{
-                     auxiliar=auxiliar.hijoDer;
-                     if(auxiliar==null){
-                         padre.hijoDer=nuevo;
-                         return;
-                     }
-                 }
-             }
-         }
-        
-     }
-     
-     public boolean estaVacio(){
-         return raiz==null;
-     }
-     
-     public void inOrden(NodoArbol n){
-         if(n!=null){
-             inOrden(n.hijoIzq);
-             System.out.println(n.dato);
-             inOrden(n.hijoDer);
-         }
-     }
-     
-      public void PreOrden(NodoArbol n) {
-         if (n != null) {
-             System.out.print(n);
-             PreOrden(n.hijoIzq);
-             PreOrden(n.hijoDer);
-         }
-     }
+    private Nodo Rn;
+    private Nodo Re;
+    
 
-     public void PostOrden(NodoArbol n) {
-         if (n != null) {
-             PostOrden(n.hijoIzq);
-             PostOrden(n.hijoDer);
-             System.out.println(n);
-         }
-     }
-     
- }
+    public boolean vacioNormal() {
+        if (Rn==null){
+              return true;
+          }else{
+              return false;
+          }
+    }
+
+    public boolean vacioEspejo() {
+        if (Re==null){
+              return true;
+          }else{
+              return false;
+          }
+    }
+
+    public Nodo getRn() {
+        return Rn;
+    }
+
+    public Nodo getRe() {
+        return Re;
+    }
+
+    public void agregar(int dato) {
+        insertar(Rn, Re, dato);
+    }
+
+    private void insertar(Nodo a, Nodo a2, int d) {
+        if (vacioNormal()) {
+            Rn = new Nodo(d);
+            Re = new Nodo(d);
+        } else if (a.getDato() > d) {
+            if (a.getHijoIzq()== null) {
+                a.setHizq(new Nodo(d));
+                //
+                a2.setHder(new Nodo(d));
+            } else {
+                insertar(a.getHijoIzq(), a2.getHder(), d);
+            }
+        } else {
+            if (a.getHder() == null) {
+                a.setHder(new Nodo(d));
+                //
+                a2.setHizq(new Nodo(d));
+            } else {
+                insertar(a.getHder(), a2.getHijoIzq(), d);
+            }
+        }
+    }
+
+    public void PreOrden(Nodo n) {
+        if (n!= null) {
+            System.out.print(n);
+            PreOrden(n.getHijoIzq());
+            PreOrden(n.getHder());
+        }
+    }
+
+    public void InOrden(Nodo n) {
+        if (n!= null) {
+            InOrden(n.getHijoIzq());
+            System.out.print(n);
+            InOrden(n.getHder());
+        }
+    }
+
+    public void PostOrden(Nodo n) {
+        if (n!= null) {
+            PostOrden(n.getHijoIzq());
+            PostOrden(n.getHder());
+            System.out.print(n);
+        }
+    }
+}
